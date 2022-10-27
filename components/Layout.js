@@ -1,11 +1,17 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { useContext } from 'react'
-import { Store } from '../utils/Store'
+import Head from 'next/head';
+import Link from 'next/link';
+import { useContext, useEffect, useState } from 'react';
+import { Store } from '../utils/Store';
 
 export default function Layout({ title, children }) {
-  const { state } = useContext(Store)
-  const { cart } = state
+  const { state } = useContext(Store);
+  const { cart } = state;
+
+  const [cartItemscount, setCartItemsCount] = useState(0);
+  useEffect(() => {
+    setCartItemsCount(cart.cartItems.reduce((a, c) => a + c.quantity, 0));
+  }, [cart.cartItems]);
+
   return (
     <>
       <Head>
@@ -45,5 +51,5 @@ export default function Layout({ title, children }) {
         </footer>
       </div>
     </>
-  )
+  );
 }
